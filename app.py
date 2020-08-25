@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from models import setup_db
+from models import setup_db, Movies, Actors
 
 
 
@@ -16,9 +16,18 @@ def create_app(test_config=None):
   def greeting():
     return 'This is home screen'
 
-  @app.route('/testing')
-  def testing():
-    return 'This is testing screen'
+  @app.route('/movies')
+  def get_movies():
+    try:
+      movies_list = Movies.query.all()
+      all_movies = [movie.format() for movie in movies_list]
+      print(all_movies)
+      return jsonify({
+        'success': True,
+        'movies': all_movies,
+      })
+    except Exception as e:
+      print(e)
 
   return app
 
