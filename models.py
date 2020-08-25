@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 import datetime
 import json
 
-database_path = os.environ.get('DATABASE_URI')
+database_path = os.environ.get('DATABASE_URL')
 if not database_path:
     database_name = "casting-agency"
     database_path = "postgres://{}/{}".format('localhost:5432', database_name)
@@ -17,7 +17,7 @@ set up_db(app)
 """
 
 def setup_db(app, database_path=database_path):
-    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
+    app.config['SQLALCHEMY_DATABASE_URL'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
