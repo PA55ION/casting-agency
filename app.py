@@ -29,8 +29,9 @@ def create_app(test_config=None):
       })
     except Exception as e:
       print(e)
-  #COMMENT add auth token for director and executive producer
+  #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['DELETE'])
+  # @requires_auth('delete:actors')
   def delete_movie(movie_id):
 
     try:
@@ -45,8 +46,8 @@ def create_app(test_config=None):
       return json.dumps({
         'success': False,
         'error': 'Movie not found'
-      }), 400
-#COMMENT add auth token for director and executive producer
+      }), 404
+#TODO add auth token for director and executive producer
   @app.route('/movies', methods=['POST'])
   # @requires_auth('post:movies')
   def post_movie():
@@ -71,7 +72,7 @@ def create_app(test_config=None):
         'success': False,
         'error': 'Not able to add movie at this time',
       }), 400
-#COMMENT add auth token for director and executive producer
+#TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['PATCH'])
   # @requires_auth('patch:movies')
   def update_movie(movie_id):
@@ -88,13 +89,116 @@ def create_app(test_config=None):
         movie.update()
         return jsonify({
           'success': True,
-          'movies': [movie.format()]
+          'movies': movie.format()
         })
       except Exception:
         return json.dumps({
           'success': False,
-          'error': 'An error occurred'
+          'error': 'An error occurred.'
         }), 500
+
+#COMMENT endpoints for actors
+
+  @app.route('/actors')
+  def get_actors():
+    try:
+      actors = Actors.query.all()
+      actor_list = [actor.format() for actor in actors]
+      print(actor_list)
+      return jsonify({
+        'success': True,
+        'actor': actor_list
+      }), 200
+
+    except Exception:
+      return json.dumps({
+        'success': False,
+        'error': 'Actor not found.'
+      }), 404
+  #TODO add auth token for director and executive producer
+  @app.route('/actors', methods=['POST'])
+  # @requires_auth('post:actors')
+  def post_actor():
+    data = request.get_json()
+
+    new_name = data.get('name', None)
+    new_age = data.get('age', None)
+    new_gender = data.get('gender', None)
+
+    try:
+      actors = Actors(name=new_name, age=new_age, gender=new_gender)
+      actors.insert()
+
+      actor_list = Actors.query.order_by('id').all()
+
+      return jsonify({
+        'success': True,
+        'actors': len(actor_list),
+        'message': 'Actor successfully added.'
+      })
+    except Exception:
+      return json.dumps({
+        'success': False,
+        'error': 'Not able to process your request.'
+      }), 422
+#TODO add auth token for director and executive producer
+  @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+  # @requires_auth('delete:actors')
+  def delete_actor(actor_id):
+    try:
+      actor = Actors.query.get(actor_id)
+      actor.delete()
+      return jsonify({
+        'success': True,
+        'message': 'Actor successfully deleted.',
+        'actors': actor.id
+      }), 200
+    except Exception:
+      return json.dumps({
+        'success': False,
+        'error': 'Actor not found.'
+      }), 404
+#TODO add auth token for director and executive producer 
+  @app.route('/actors/<int:actor_id>', methods=['PATCH'])
+  # @requires_auth('patch:actors')
+  def update_actor(actor_id):
+    actor = Actors.query.filter(Actors.id == actor_id).one_or_none()
+
+    if actor:
+      try:
+        data = request.get_json()
+        update_name = data.get('name', None)
+        update_age = data.get('age', None)
+        update_gender = data.get('gender', None)
+        if update_name:
+          actor.name = update_name
+        if update_age:
+          actor.age = update_age
+        if update_gender:
+          actor.gender = update_gender
+
+        actor.update()
+          
+        return jsonify({
+          'success': True,
+          'message': 'Successfully updated.',
+          'actors': actor.format()
+        }), 200
+      except Exception:
+        return json.dumps({
+          'success': False,
+          'error': 'An error occurred',
+        }), 500
+
+    
+
+  
+
+     
+
+
+
+  
 
   return app
 
