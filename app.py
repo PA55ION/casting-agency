@@ -190,16 +190,37 @@ def create_app(test_config=None):
           'error': 'An error occurred',
         }), 500
 
+  #COMMENT error handler
+  @app.errorhandler(422)
+  def unprocessable(error):
+    return jsonify({
+      'success': False,
+      'error': 422,
+      "message": "Unprocessable"
+    }), 422
+
+  @app.errorhandler(404)
+  def not_found(error):
+    return jsonify({
+      'success': False,
+      'error': 404,
+      'message': "Not found"
+    }), 404
+
+  @app.errorhandler(500)
+  def internal_server_error(error):
+    return jsonify({
+      'success': False,
+      'message': "Internal server error",
+      'error': 500
+    }), 500
+  
+  @app.errorhandler(AuthError)
+  def auth_error(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
     
-
-  
-
-     
-
-
-
-  
-
   return app
 
 app = create_app()
