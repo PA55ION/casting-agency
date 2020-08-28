@@ -1,9 +1,10 @@
 import os
-from flask import Flask, request, abort, jsonify, request, render_template, redirect
+from flask import Flask, abort, jsonify, request, render_template, redirect
 import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Movies, Actors
+from auth import AuthError, require_auth
 
 
 
@@ -13,6 +14,12 @@ def create_app(test_config=None):
   db = setup_db(app)
   cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
 
+# Use the after_request decorator to set Access-Control-Allow
+  # @app.after_request
+  # def after_request(response):
+  #   response.header.add('Access-Control-Allow-Header', 'Content-Type, Authorization')
+  #   response.header.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
+  #   return response 
   @app.route('/')
   def index():
     return render_template('/home.html')
@@ -33,14 +40,14 @@ def create_app(test_config=None):
   @app.route('/movies/<int:movie_id>', methods=['DELETE'])
   # @requires_auth('delete:actors')
   def delete_movie(movie_id):
-
     try:
       movie = Movies.query.get(movie_id)
+      name = movie.title
       movie.delete()
       return jsonify({
         'success': True,
         'deleted': movie.id,
-        'message': 'Successfully deleted'
+        'message': 'Movie ' + name + ' successfully deleted'
       }), 200
     except Exception:
       return json.dumps({
@@ -64,7 +71,7 @@ def create_app(test_config=None):
 
       return jsonify({
         'success': True,
-        'message': 'Successfully added',
+        'message': 'Movie ' + movie.title + ' successfully added',
         'movies': len(selection)
       })
     except Exception:
@@ -98,7 +105,6 @@ def create_app(test_config=None):
         }), 500
 
 #COMMENT endpoints for actors
-
   @app.route('/actors')
   def get_actors():
     try:
@@ -107,7 +113,7 @@ def create_app(test_config=None):
       print(actor_list)
       return jsonify({
         'success': True,
-        'actor': actor_list
+        'actors': actor_list
       }), 200
 
     except Exception:
@@ -126,15 +132,15 @@ def create_app(test_config=None):
     new_gender = data.get('gender', None)
 
     try:
-      actors = Actors(name=new_name, age=new_age, gender=new_gender)
-      actors.insert()
+      actor = Actors(name=new_name, age=new_age, gender=new_gender)
+      actor.insert()
 
       actor_list = Actors.query.order_by('id').all()
 
       return jsonify({
         'success': True,
         'actors': len(actor_list),
-        'message': 'Actor successfully added.'
+        'message': actor.name + ' ' + 'successfully added.'
       })
     except Exception:
       return json.dumps({
