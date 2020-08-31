@@ -78,7 +78,7 @@ def create_app(test_config=None):
       return json.dumps({
         'success': False,
         'error': 'Not able to add movie at this time',
-      }), 400
+      }), 422
 #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['PATCH'])
   # @requires_auth('patch:movies')
@@ -101,8 +101,8 @@ def create_app(test_config=None):
       except Exception:
         return json.dumps({
           'success': False,
-          'error': 'An error occurred.'
-        }), 500
+          'error': 'Bad request'
+        }), 400
 
 #COMMENT endpoints for actors
   @app.route('/actors')
