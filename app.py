@@ -145,8 +145,8 @@ def create_app(test_config=None):
     except Exception:
       return json.dumps({
         'success': False,
-        'error': 'Not able to process your request.'
-      }), 422
+        'error': 'Internal server error.'
+      }), 500
 #TODO add auth token for director and executive producer
   @app.route('/actors/<int:actor_id>', methods=['DELETE'])
   # @requires_auth('delete:actors')
@@ -193,8 +193,8 @@ def create_app(test_config=None):
       except Exception:
         return json.dumps({
           'success': False,
-          'error': 'An error occurred',
-        }), 500
+          'error': 'Bad request.',
+        }), 400
 
   #COMMENT error handler
   @app.errorhandler(422)
