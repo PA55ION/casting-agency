@@ -4,7 +4,7 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Movies, Actors
-from auth import AuthError, require_auth
+from auth import AuthError, requires_auth
 
 
 
@@ -14,15 +14,14 @@ def create_app(test_config=None):
   db = setup_db(app)
   cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
 
-# Use the after_request decorator to set Access-Control-Allow
-  # @app.after_request
-  # def after_request(response):
-  #   response.header.add('Access-Control-Allow-Header', 'Content-Type, Authorization')
-  #   response.header.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
-  #   return response 
   @app.route('/')
   def index():
-    return render_template('/home.html')
+    movies = Movies.query.all()
+    return render_template('home.html', movie=movies)
+
+  @app.route('/logout')
+  def logout():
+    return ('Logout', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
 
   @app.route('/movies')
   def get_movies():
@@ -38,8 +37,8 @@ def create_app(test_config=None):
       print(e)
   #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-  # @requires_auth('delete:actors')
-  def delete_movie(movie_id):
+  @requires_auth('delete:actors')
+  def delete_movie(token, movie_id):
     try:
       movie = Movies.query.get(movie_id)
       name = movie.title
@@ -56,8 +55,8 @@ def create_app(test_config=None):
       }), 404
 #TODO add auth token for director and executive producer
   @app.route('/movies', methods=['POST'])
-  # @requires_auth('post:movies')
-  def post_movie():
+  @requires_auth('post:movies')
+  def post_movie(token):
     data = request.get_json()
 
     new_title = data.get('title', None)
@@ -81,8 +80,8 @@ def create_app(test_config=None):
       }), 422
 #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-  # @requires_auth('patch:movies')
-  def update_movie(movie_id):
+  @requires_auth('patch:movies')
+  def update_movie(token, movie_id):
     movie = Movies.query.filter(Movies.id == movie_id).one_or_none()
     if movie:
       try:
@@ -123,8 +122,8 @@ def create_app(test_config=None):
       }), 404
   #TODO add auth token for director and executive producer
   @app.route('/actors', methods=['POST'])
-  # @requires_auth('post:actors')
-  def post_actor():
+  @requires_auth('post:actors')
+  def post_actor(token):
     data = request.get_json()
 
     new_name = data.get('name', None)
@@ -149,8 +148,8 @@ def create_app(test_config=None):
       }), 500
 #TODO add auth token for director and executive producer
   @app.route('/actors/<int:actor_id>', methods=['DELETE'])
-  # @requires_auth('delete:actors')
-  def delete_actor(actor_id):
+  @requires_auth('delete:actors')
+  def delete_actor(token, actor_id):
     try:
       actor = Actors.query.get(actor_id)
       actor.delete()
@@ -166,8 +165,8 @@ def create_app(test_config=None):
       }), 404
 #TODO add auth token for director and executive producer 
   @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-  # @requires_auth('patch:actors')
-  def update_actor(actor_id):
+  @requires_auth('patch:actors')
+  def update_actor(token, actor_id):
     actor = Actors.query.filter(Actors.id == actor_id).one_or_none()
 
     if actor:

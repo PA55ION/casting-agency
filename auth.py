@@ -5,9 +5,15 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
-ALGORITHMS = os.environ.get('ALGORITHMS')
-API_AUDIENCE = os.environ.get('API_AUDIENCE')
+# AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+# ALGORITHMS = os.environ.get('ALGORITHMS')
+# API_AUDIENCE = os.environ.get('API_AUDIENCE')
+
+AUTH0_DOMAIN = 'dev-ys0-cxsi.us.auth0.com'
+ALGORITHMS = ['RS256']
+API_AUDIENCE = 'casting-agency'
+
+os.environ.get('AUTH0_DOMAIN')
 
 ## AuthError Exception
 '''
@@ -116,7 +122,7 @@ def verify_decode_jwt(token):
         'description': 'Unable to find the appropriate key.'
     }, 400)    
 
-def require_auth(permission=''):
+def requires_auth(permission=''):
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):

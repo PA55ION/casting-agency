@@ -25,7 +25,6 @@ class CastingTestCase(unittest.TestCase):
             "gender": "Female"
         }
         
-
         #bind the app to the current context
         with self.app.app_context():
             self.db = SQLAlchemy()
@@ -44,14 +43,14 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['movies'])
     #DELETE Movies
-    # def test_delete_movie(self):
-    #     res = self.client().delete('/movies/1')
-    #     data = json.loads(res.data)
+    def test_delete_movie(self):
+        res = self.client().delete('/movies/1')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['deleted'], 1)
-    #     self.assertTrue(data['message'])
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], 1)
+        self.assertTrue(data['message'])
 
     def test_delete_movies_fail(self):
         res = self.client().delete('/movies/100')
@@ -61,22 +60,22 @@ class CastingTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 'Movie not found')
     #POST Movies
-    # def test_post_new_movie(self):
-    #     res = self.client().post('/movies', json=self.new_movie)
-    #     data = json.loads(res.data)
+    def test_post_new_movie(self):
+        res = self.client().post('/movies', json=self.new_movie)
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['message'])
-    #     self.assertTrue(data['movies'])
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['message'])
+        self.assertTrue(data['movies'])
 
-    # def test_new_movie_fail(self):
-    #     res = self.client().post('/movies')
-    #     data = json.loads(res.data)
+    def test_new_movie_fail(self):
+        res = self.client().post('/movies')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 422)
-    #     self.assertEqual(data['success'], False)
-    #     self.assertEqual(data['error'], 'Not able to add movie at this time.')
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 'Not able to add movie at this time.')
     #PATCH movies
     def test_update_movie(self):
         res = self.client().patch('/movies/5', json={'title': 'Parasite', 'release_date': '8 Nov 2019  12:03:45 GMT'})
