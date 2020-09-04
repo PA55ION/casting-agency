@@ -1,0 +1,20 @@
+{% extends 'layouts/home.html' %}
+{% block title %}Casting Agency | Actors{% endblock %}
+{% block content %}
+<section class="section">
+	<div class="title has-text-centered">Actors | Actress</div>
+	<div class="container is-fluid">
+		<div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd is-multiline">
+			{% for actor in actors %}
+			<div class="column is-3">
+				<div class="card-image is-3">
+					<img src="https://www.emmys.com/sites/default/files/bios/adam-sandler-2019-450x600.jpg">
+					<button type="submit" data-id="{{ actor.id }}" class="button-delete" title="Remove movie"><i class="fa fa-trash-alt"></i></button>
+					<h3><a href="/actors/{{ actor.id }}">{{ actor.name }}</a></h3>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+{% endblock %}

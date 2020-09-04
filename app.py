@@ -17,7 +17,7 @@ def create_app(test_config=None):
   @app.route('/')
   def index():
     movies = Movies.query.all()
-    return render_template('home.html', movie=movies)
+    return render_template('/layouts/home.html', movie=movies)
 
   @app.route('/logout')
   def logout():
@@ -25,16 +25,19 @@ def create_app(test_config=None):
 
   @app.route('/movies')
   def get_movies():
-    try:
-      movies_list = Movies.query.all()
-      all_movies = [movie.format() for movie in movies_list]
-      print(all_movies)
-      return jsonify({
-        'success': True,
-        'movies': all_movies,
-      })
-    except Exception as e:
-      print(e)
+    movies = Movies.query.all()
+    return render_template('pages/movies.html', movies=movies)
+    # try:
+    #   movies_list = Movies.query.all()
+    #   all_movies = [movie.format() for movie in movies_list]
+    #   print(all_movies)
+    #   return jsonify({
+    #     'success': True,
+    #     'movies': all_movies,
+    #   })
+    # except Exception as e:
+    #   print(e)
+
   #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['DELETE'])
   @requires_auth('delete:actors')
@@ -106,20 +109,23 @@ def create_app(test_config=None):
 #COMMENT endpoints for actors
   @app.route('/actors')
   def get_actors():
-    try:
-      actors = Actors.query.all()
-      actor_list = [actor.format() for actor in actors]
-      print(actor_list)
-      return jsonify({
-        'success': True,
-        'actors': actor_list
-      }), 200
+    actors = Actors.query.all()
+    # try:
+    #   actors = Actors.query.all()
+    #   actor_list = [actor.format() for actor in actors]
+    #   print(actor_list)
+    #   return jsonify({
+    #     'success': True,
+    #     'actors': actor_list
+    #   }), 200
 
-    except Exception:
-      return json.dumps({
-        'success': False,
-        'error': 'Actor not found.'
-      }), 404
+    # except Exception:
+    #   return json.dumps({
+    #     'success': False,
+    #     'error': 'Actor not found.'
+    #   }), 404
+    
+    return render_template('pages/actors.html', actors=actors)
   #TODO add auth token for director and executive producer
   @app.route('/actors', methods=['POST'])
   @requires_auth('post:actors')

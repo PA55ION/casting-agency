@@ -1,0 +1,23 @@
+{% extends 'layouts/home.html' %}
+{% block title %}Casting Agency | Movies{% endblock %}
+{% block content %}
+<section class="section">
+	<div class="title has-text-centered">Movies</div>
+	<div class="container">
+		<div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd is-multiline">
+			{% for movie in movies %}
+			<div class="column is-3">
+				<div class="card-image is-3">
+                    <figure class="image">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg" alt="movie-poster">
+                      </figure>
+					<!-- <button type="submit" data-id="{{ movie.id }}" class="button-delete" title="Remove movie"><i class="fa fa-trash-alt"></i></button> -->
+					<h3 class="py-2 has-text-centered"><a href="/movies/{{ movie.id }}">{{ movie.title }}</a></h3>
+					<!-- <p>Description: {{movie.description}} <br>Release Date: {{movie.release_date}} <br> Casting Date: 18/08/202</p> -->
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+{% endblock %}

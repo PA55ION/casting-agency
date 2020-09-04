@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ovo&display=swap');
+
+
+:root {
+  --main-font: 'Comfortaa', cursive;
+  --secondary-font: 'Ovo', serif
+}
+
+body {
+  font-family: 'Ovo', serif;
+}
+
