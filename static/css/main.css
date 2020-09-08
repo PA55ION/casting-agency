@@ -4,10 +4,31 @@
 
 :root {
   --main-font: 'Comfortaa', cursive;
-  --secondary-font: 'Ovo', serif
+  --secondary-font: 'Ovo', serif;
+  --background-color: #121212;
+  --font-color: #ffeeef;
 }
 
 body {
   font-family: 'Ovo', serif;
+  background-color: var(--background-color);
+  padding: 0;
+  margin: 0;
 }
 
+.card {
+  box-shadow: none;
+}
+
+.title {
+  color: var(--font-color);
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.hidden {
+  display: none;
+}

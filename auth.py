@@ -1,19 +1,21 @@
 import json
 import os
-from flask import request, _request_ctx_stack
+from flask import request, _request_ctx_stack, Flask, jsonify
 from functools import wraps
 from jose import jwt
-from urllib.request import urlopen
+from six.moves.urllib.request import urlopen
+from flask_cors import cross_origin
 
-# AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
-# ALGORITHMS = os.environ.get('ALGORITHMS')
-# API_AUDIENCE = os.environ.get('API_AUDIENCE')
 
-AUTH0_DOMAIN = 'dev-ys0-cxsi.us.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'casting-agency'
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+ALGORITHMS = os.environ.get('ALGORITHMS')
+AUTH0_API_AUDIENCE = os.environ.get('AUTH0_API_AUDIENCE')
 
-os.environ.get('AUTH0_DOMAIN')
+# AUTH0_DOMAIN = 'dev-ys0-cxsi.us.auth0.com'
+# ALGORITHMS = ['RS256']
+# API_AUDIENCE = 'casting-agency'
+
+# os.environ.get('AUTH0_DOMAIN')
 
 ## AuthError Exception
 '''
@@ -24,7 +26,6 @@ class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
-
 
 def get_token_auth_header():
     auth = request.headers.get('Authorization', None)

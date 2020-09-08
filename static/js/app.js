@@ -22,18 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
-  
   });
 
-// function collapseNav() {
-//     let navbar = document.querySelectorAll('.navbar-burger');
-//     navbar.forEach('menu', () => {
-//         menu.addEventListener('click', () => {
-//             const target = menu.dataset.target;
-//             target.classList.toggle('is-active')
-//             menu.classList.toggle('is-active');
-//         })
-//     })
 
-// }
+// document.addEventListener('DOMContentLoaded', () => {
+//     const navbar = document.getquerySelectorAll('.navbar-burger');
+//     if (navbar.length > 0) {
+//         navbar.forEach(e => {
+//             e.addEventListener('click', () => {
+//                 const target = e.dataset.target;
+//                 target = document.getElementById('target');
+//                 e.classList.toggle('is-active');
+//                 target.classList.toggle('is-active');
+//             })
+            
+//         });
+//     }
+// })
+
+
 

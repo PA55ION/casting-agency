@@ -1,35 +1,76 @@
 import os
-from flask import Flask, abort, jsonify, request, render_template, redirect
+from flask import Flask, abort, jsonify, request, render_template, redirect, session, url_for
 import json
+# from authlib.integrations.flask_client import OAuth
+from six.moves.urllib.parse import urlencode
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Movies, Actors
 from auth import AuthError, requires_auth
 
-
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+AUTH0_API_AUDIENCE = os.environ.get('AUTH0_API_AUDIENCE')
+AUTH0_CALLBACK_URL= os.environ.get('AUTH0_CALLBACK_URL')
+AUTH0_CLIENT_SECRET = os.environ.get('AUTH0_CLIENT_SECRET')
+AUTH0_CLIENT_ID = os.environ.get('AUTH0_CLIENT_ID')
+# AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
 
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
   db = setup_db(app)
   cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
+  # oauth = OAuth(app)
+
+  # auth0= oauth.register(
+  #   'auth0',
+  #   client_id=AUTH0_CLIENT_ID,
+  #   client_secret=AUTH0_CLIENT_SECRET,
+  #   api_base_url=AUTH0_BASE_URL,
+  #   access_token_url=AUTH0_BASE_URL + '/oauth/token',
+  #   authorize_url=AUTH0_BASE_URL + '/authorize',
+  #   client_kwargs={
+  #       'scope': 'openid profile email',
+  #   },
+  # )
 
   @app.route('/')
   def index():
-    movies = Movies.query.all()
-    return render_template('/layouts/home.html', movie=movies)
+    return render_template('/layouts/home.html')
 
   @app.route('/logout')
   def logout():
-    return ('Logout', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+    session.clear()
+    # return ('Logout', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
+    params = {'returnTo': url_for('home', _external=True), 'client_id': 'Er4ULFDP3EJpPh3Ds6Pu1kgNGN6yI2mz'}
+    return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
+
+  # @app.rote('/login')
+  # def login():
+  #   return auth0.authorize_redirect(redirect_uri='http://127.0.0.1:5000/')
+
+  # @app.route('/callback')
+  # def callback_handling():
+  #   auth0.authorize_access_token()
+  #   resp = auth0.get('userinfo')
+  #   userinfo = resp.json()
+
+  #   session['jwt.payload'] = userinfo
+  #   session['profile'] = {
+  #     'user_id': userinfo['sub'],
+  #     'name': userinfo['name'],
+  #     'picture': userinfo['picture']
+  #   }
+
+  #   return redirect('/layouts/home.html')
+
 
   @app.route('/movies')
   def get_movies():
     movies = Movies.query.all()
-    return render_template('pages/movies.html', movies=movies)
     # try:
-    #   movies_list = Movies.query.all()
-    #   all_movies = [movie.format() for movie in movies_list]
+    #   movies = Movies.query.all()
+    #   all_movies = [movie.format() for movie in movies]
     #   print(all_movies)
     #   return jsonify({
     #     'success': True,
@@ -38,9 +79,11 @@ def create_app(test_config=None):
     # except Exception as e:
     #   print(e)
 
+    return render_template('pages/movies.html', movies=movies)
+
   #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-  @requires_auth('delete:actors')
+  # @requires_auth('delete:actors')
   def delete_movie(token, movie_id):
     try:
       movie = Movies.query.get(movie_id)
@@ -58,15 +101,17 @@ def create_app(test_config=None):
       }), 404
 #TODO add auth token for director and executive producer
   @app.route('/movies', methods=['POST'])
-  @requires_auth('post:movies')
+  # @requires_auth('post:movies')
   def post_movie(token):
     data = request.get_json()
 
     new_title = data.get('title', None)
     new_release_date = data.get('release_date', None)
+    new_image_link = data.get('image_link', None)
+    new_description = data.get('descripton', None)
 
     try:
-      movie = Movies(title=new_title, release_date=new_release_date)
+      movie = Movies(title=new_title, release_date=new_release_date, description=new_description, image_link=new_image_link)
       movie.insert()
 
       selection = Movies.query.order_by('id').all()
@@ -83,18 +128,24 @@ def create_app(test_config=None):
       }), 422
 #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-  @requires_auth('patch:movies')
-  def update_movie(token, movie_id):
+  # @requires_auth('patch:movies')
+  def update_movie(movie_id):
     movie = Movies.query.filter(Movies.id == movie_id).one_or_none()
     if movie:
       try:
         data = request.get_json()
         update_title = data.get('title', None)
         update_release_date = data.get('release_date', None)
+        update_image = data.get('image_link', None)
+        update_description = data.get('description', None)
         if update_title:
           movie.title = update_title
         if update_release_date:
           movie.release_date = update_release_date
+        if update_image:
+          movie.image_link = update_image
+        if update_description:
+          movie.description = update_description
         movie.update()
         return jsonify({
           'success': True,
@@ -154,7 +205,7 @@ def create_app(test_config=None):
       }), 500
 #TODO add auth token for director and executive producer
   @app.route('/actors/<int:actor_id>', methods=['DELETE'])
-  @requires_auth('delete:actors')
+  # @requires_auth('delete:actors')
   def delete_actor(token, actor_id):
     try:
       actor = Actors.query.get(actor_id)
@@ -171,7 +222,7 @@ def create_app(test_config=None):
       }), 404
 #TODO add auth token for director and executive producer 
   @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-  @requires_auth('patch:actors')
+  # @requires_auth('patch:actors')
   def update_actor(token, actor_id):
     actor = Actors.query.filter(Actors.id == actor_id).one_or_none()
 
