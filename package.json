@@ -1,0 +1,10 @@
+{
+    "name": "casting-agency",
+    "version": "0.1.0",
+    "private": true,
+    "proxy": "http://127.0.0.1:5000/",
+    "dependencies": {
+        "dotenv": "^8.2.0"
+    },
+    "type": "module"
+}

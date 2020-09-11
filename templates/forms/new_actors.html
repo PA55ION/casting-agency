@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"
+    />
+    <link rel="shortcut icon" href="https://use.typekit.net/eeq8vwp.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+  </head>
+  <body>
+    <section class="hero actor-img is-fullheight">
+        <!-- <img src="/static/assets/actor-background-img.jpg"> -->
+      <div class="columns form-columns">
+        <div class="column img-bg"></div>
+        <div class="column">
+          <div class="field">
+            <form>
+              <h3 class="has-text-weight-bold">Add Actor | Actress</h3>
+              <div class="field">
+                <label class="label" for="actor_name">Name</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    id="actor_name"
+                    type="text"
+                    placeholder="Actor | Actress name"
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="age" class="label">Age</label>
+                <div class="control">
+                  <input
+                    id="age"
+                    class="input"
+                    type="date"
+                  />
+                  <!-- <span class="icon is-small is-left">
+                    <i class="fas fa-calendar"></i>
+                  </span> -->
+                </div>
+              </div>
+
+              <div class="control">
+                <label class="radio">
+                  <input type="radio" name="answer">
+                  Male
+                </label>
+                <label class="radio">
+                  <input type="radio" name="answer">
+                  Female
+                </label>
+              </div>
+              <div class="field">
+                <label for="image_link">Image Link</label>
+                <div class="control">
+                  <input
+                    id="image_link"
+                    class="input"
+                    type="url"
+                    placeholder="http://"
+                  />
+                </div>
+              </div>
+
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-link" id="submit-actor">
+                    Submit
+                  </button>
+                </div>
+                <div class="control">
+                  <button class="button is-link is-light">Cancel</button>
+                </div>
+              </div>
+              <p id="demo"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>

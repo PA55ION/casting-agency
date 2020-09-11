@@ -32,12 +32,25 @@
           <a class="navbar-item" href='/'>
             Home
           </a>
-              <a id="movies" class="navbar-item disabled" href="{{ url_for('get_movies')}}">
+              <a id="movies gated-content" class="navbar-item" href="{{ url_for('get_movies')}}">
                 Movies
               </a>
               <a href="{{ url_for('get_actors')}}" id="actors" class="navbar-item">
                 Actors
               </a>
+              <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link is-arrowless">
+                  Add Movies / Actors
+                </a>
+                <div class="navbar-dropdown">
+                  <a class="navbar-item" href='/add_movie'>
+                    Movies
+                  </a>
+                  <a class="navbar-item" href='/actors/create'>
+                   Actors
+                  </a>
+              </div>
+              </div>
         </div>
         <div class="navbar-end">
           <div class="navbar-item">
@@ -93,12 +106,13 @@
               </li> -->
               <!-- </ul> -->
             <div class="buttons">
-              <a class="button is-primary" id="logout" disabled="true">
+              <a class="button is-primary" id="logout">
                 <strong>Log out</strong>
               </a>
               <a  
               id="login"
-              class="button is-primary">
+              class="button is-primary"
+              >
                 Log in
               </a>
             </div>
@@ -108,89 +122,12 @@
     </nav>
   <!-- </div>  -->
   {% block content %}
-    <section class='section'>
-      <div class="container is-fluid hidden" id="gated-content"">
-      <h1 class="title">Movies</h1>
-      <h2 class="subtitle">
-        A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-      </h2>
-<div class="columns">
-  <div class="column m-2 p-4">
-    <div class="card is-3">
-      <div class="card-image">
-        <figure class="image is-4by5">
-        <img src="https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg" alt="movie-poster">
+  <section class="hero is-fullheight is-fullwidth bg-img">
+        <figure class="image is-fullheight">
+          <img src='https://i.pinimg.com/originals/fe/9a/fb/fe9afbe8b357c2f0068b50626fb1e840.jpg'>
       </figure>
-      </div>
-    </div>
-    <div class="media-content">
-      <p class="title is-6 has-text-centered pt-4">Black Panther</p>
-    </div>
-
-  </div>
-  <div class="column">
-    <div class="card is-3">
-      <div class="card-image">
-        <figure class="image is-4by5">
-        <img src="https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg" alt="movie-poster">
-      </figure>
-      </div>
-    </div>
-    <div class="media-content">
-      <p class="title pt-4 is-6 has-text-centered">Black Panther</p>
-    </div>
-
-  </div>
-  <div class="column">
-    <div class="card is-3">
-      <div class="card-image">
-        <figure class="image is-4by5">
-        <img src="https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg" alt="movie-poster">
-      </figure>
-      </div>
-    </div>
-    <div class="media-content">
-      <p class="title pt-4 is-6 has-text-centered">Black Panther</p>
-    </div>
-
-  </div>
-  <div class="column">
-    <div class="card is-3">
-      <div class="card-image">
-        <figure class="image is-4by5">
-        <img src="https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg" alt="movie-poster">
-      </figure>
-      </div>
-    </div>
-    <div class="media-content">
-      <p class="title is-6 has-text-centered pt-4">Black Panther</p>
-    </div>
-  </div>
-
-
-  <div class="column">
-    <div class="card is-3">
-      <div class="card-image">
-        <figure class="image is-4by5">
-        <img src="https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg" alt="movie-poster">
-      </figure>
-      </div>
-    </div>
-    <div class="media-content">
-      <p class="title is-6 has-text-centered pt-4">Black Panther</p>
-    </div>
-  </div>
-  </div>
-</div>
-</div>
-  <section class="section">
-    <div class="container is-fluid">
-      <h1 class="title">Actors</h1>
-      <h2 class="subtitle">
-        A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-      </h2>
-    </div>
   </section>
+
   {% endblock %}
   {% block footer %}
   <footer class="footer is-primary">
@@ -202,9 +139,13 @@
   
     </section>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.9/auth0-spa-js.production.js"></script> 
+    <script src="https://cdn.auth0.com/js/lock/11.26.3/lock.min.js"></script>
+    <script src="/static/js/auth_variable.js"></script>
+    <!-- <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script> -->
     <script type="text/javascript" src="/static/js/app.js" defer></script>
     <script type="text/javascript" src="/static/js/auth0.js" defer></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script>
     <!-- <script>
       window.onload = function(){
       const login = document.getElementById('login');
@@ -223,6 +164,13 @@
       
     }
   
+  </script> -->
+
+  <!-- <script type="text/javascript">
+    var webAuth = new auth0.WebAuth({
+      domain:       'dev-ys0-cxsi.us.auth0.com',
+      clientID:     'Er4ULFDP3EJpPh3Ds6Pu1kgNGN6yI2mz'
+    });
   </script> -->
   </body>
 </html>

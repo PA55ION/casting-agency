@@ -1,42 +1,55 @@
 import os
-from flask import Flask, abort, jsonify, request, render_template, redirect, session, url_for
+SECRET_KEY = os.urandom(32)
+from flask import Flask, abort, jsonify, request, render_template, redirect, session, url_for, flash
 import json
-# from authlib.integrations.flask_client import OAuth
+from authlib.integrations.flask_client import OAuth
 from six.moves.urllib.parse import urlencode
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Movies, Actors
 from auth import AuthError, requires_auth
+from flask_wtf import Form
+from forms import *
+
 
 AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
 AUTH0_API_AUDIENCE = os.environ.get('AUTH0_API_AUDIENCE')
 AUTH0_CALLBACK_URL= os.environ.get('AUTH0_CALLBACK_URL')
 AUTH0_CLIENT_SECRET = os.environ.get('AUTH0_CLIENT_SECRET')
 AUTH0_CLIENT_ID = os.environ.get('AUTH0_CLIENT_ID')
-# AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
+AUTH0_BASE_URL = 'https://{AUTH0_DOMAIN}'
 
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
   db = setup_db(app)
+  app.config['SECRET_KEY'] = SECRET_KEY
   cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
-  # oauth = OAuth(app)
+  oauth = OAuth(app)
 
-  # auth0= oauth.register(
-  #   'auth0',
-  #   client_id=AUTH0_CLIENT_ID,
-  #   client_secret=AUTH0_CLIENT_SECRET,
-  #   api_base_url=AUTH0_BASE_URL,
-  #   access_token_url=AUTH0_BASE_URL + '/oauth/token',
-  #   authorize_url=AUTH0_BASE_URL + '/authorize',
-  #   client_kwargs={
-  #       'scope': 'openid profile email',
-  #   },
-  # )
+  @app.after_request
+  def after_request(response):
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, PATCH,  POST, DELETE, OPTIONS')
+    return response
+
+  auth0= oauth.register(
+    'auth0',
+    client_id='Er4ULFDP3EJpPh3Ds6Pu1kgNGN6yI2mz',
+    client_secret='YOUR_CLIENT_SECRET',
+    api_base_url='https://dev-ys0-cxsi.us.auth0.com',
+    access_token_url='https://dev-ys0-cxsi.us.auth0.com/oauth/token',
+    authorize_url='https://dev-ys0-cxsi.us.auth0.com/authorize',
+    # client_id=AUTH0_CLIENT_ID,
+    # client_secret=AUTH0_CLIENT_SECRET,
+    # api_base_url=AUTH0_BASE_URL,
+    # access_token_url=AUTH0_BASE_URL + '/oauth/token',
+    # authorize_url=AUTH0_BASE_URL + '/authorize',
+  )
 
   @app.route('/')
   def index():
-    return render_template('/layouts/home.html')
+    return render_template('layouts/home.html')
 
   @app.route('/logout')
   def logout():
@@ -45,24 +58,24 @@ def create_app(test_config=None):
     params = {'returnTo': url_for('home', _external=True), 'client_id': 'Er4ULFDP3EJpPh3Ds6Pu1kgNGN6yI2mz'}
     return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
 
-  # @app.rote('/login')
+  # @app.route('/login')
   # def login():
   #   return auth0.authorize_redirect(redirect_uri='http://127.0.0.1:5000/')
 
-  # @app.route('/callback')
-  # def callback_handling():
-  #   auth0.authorize_access_token()
-  #   resp = auth0.get('userinfo')
-  #   userinfo = resp.json()
+  @app.route('/callback')
+  def callback_handling():
+    auth0.authorize_access_token()
+    resp = auth0.get('userinfo')
+    userinfo = resp.json()
 
-  #   session['jwt.payload'] = userinfo
-  #   session['profile'] = {
-  #     'user_id': userinfo['sub'],
-  #     'name': userinfo['name'],
-  #     'picture': userinfo['picture']
-  #   }
+    session['jwt.payload'] = userinfo
+    session['profile'] = {
+      'user_id': userinfo['sub'],
+      'name': userinfo['name'],
+      'picture': userinfo['picture']
+    }
 
-  #   return redirect('/layouts/home.html')
+    return redirect('/layouts/home.html')
 
 
   @app.route('/movies')
@@ -80,6 +93,11 @@ def create_app(test_config=None):
     #   print(e)
 
     return render_template('pages/movies.html', movies=movies)
+  
+  @app.route('/add_movie', methods=['GET'])
+  def create_movie_form():
+    # form = MovieForm()
+    return render_template('forms/new_movies.html')
 
   #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['DELETE'])
@@ -100,15 +118,27 @@ def create_app(test_config=None):
         'error': 'Movie not found'
       }), 404
 #TODO add auth token for director and executive producer
-  @app.route('/movies', methods=['POST'])
+  @app.route('/add_movies', methods=['POST'])
   # @requires_auth('post:movies')
-  def post_movie(token):
+  def add_movie():
+  # def post_movie(token):
     data = request.get_json()
 
     new_title = data.get('title', None)
     new_release_date = data.get('release_date', None)
     new_image_link = data.get('image_link', None)
-    new_description = data.get('descripton', None)
+    new_description = data.get('description', None)
+
+    # new_title = request.form['title']
+    # new_release_date = request.form['release_date']
+    # new_image_link = request.form['image_link']
+    # new_description = request.form['description']
+
+    # new_title = data['title']
+    # new_release_date = data['release_date']
+    # new_image_link = data['image_link']
+    # new_description = data['description']
+
 
     try:
       movie = Movies(title=new_title, release_date=new_release_date, description=new_description, image_link=new_image_link)
@@ -121,11 +151,13 @@ def create_app(test_config=None):
         'message': 'Movie ' + movie.title + ' successfully added',
         'movies': len(selection)
       })
+     
     except Exception:
       return json.dumps({
         'success': False,
         'error': 'Not able to add movie at this time',
       }), 422
+
 #TODO add auth token for director and executive producer
   @app.route('/movies/<int:movie_id>', methods=['PATCH'])
   # @requires_auth('patch:movies')
@@ -179,8 +211,9 @@ def create_app(test_config=None):
     return render_template('pages/actors.html', actors=actors)
   #TODO add auth token for director and executive producer
   @app.route('/actors', methods=['POST'])
-  @requires_auth('post:actors')
-  def post_actor(token):
+  def add_actor():
+  # @requires_auth('post:actors')
+  # def post_actor(token):
     data = request.get_json()
 
     new_name = data.get('name', None)
@@ -198,6 +231,7 @@ def create_app(test_config=None):
         'actors': len(actor_list),
         'message': actor.name + ' ' + 'successfully added.'
       })
+
     except Exception:
       return json.dumps({
         'success': False,
@@ -252,6 +286,10 @@ def create_app(test_config=None):
           'error': 'Bad request.',
         }), 400
 
+  @app.route('/actors/create', methods=['GET'])
+  def create_actor_form():
+      return render_template('forms/new_actors.html')
+
   #COMMENT error handler
   @app.errorhandler(422)
   def unprocessable(error):
@@ -288,5 +326,5 @@ def create_app(test_config=None):
 app = create_app()
 
 if __name__ == '__main__':
-    # APP.run(host='0.0.0.0', port=8080, debug=True)
-    app.run()
+    app.run(host='0.0.0.0', port=8080, debug=True)
+    # app.run()

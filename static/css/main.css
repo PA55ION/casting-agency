@@ -11,7 +11,7 @@
 
 body {
   font-family: 'Ovo', serif;
-  background-color: var(--background-color);
+  /* background-color: var(--background-color); */
   padding: 0;
   margin: 0;
 }
@@ -21,14 +21,63 @@ body {
 }
 
 .title {
-  color: var(--font-color);
+  color: var(--background-color);
 }
-
+/* 
 a.disabled {
   pointer-events: none;
   cursor: not-allowed;
-}
+} */
 
 .hidden {
   display: none;
 }
+
+.bg-img {
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+}
+
+.movie-img-column {
+  height: 100vh;
+  background-image: url('https://i.pinimg.com/originals/fe/9a/fb/fe9afbe8b357c2f0068b50626fb1e840.jpg');
+}
+
+.form-columns {
+  margin: 0;
+  overflow-y: scroll;
+  background-size: contain;
+}
+
+.img-bg {
+  background-image: url('../assets/actor-background-img.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+/* .level-right {
+  margin-right: 50px;
+  margin-top: 150px;
+} */
+
+.control {
+  width: 400px;
+}
+
+/* .field {
+  position: relative;
+  top: 15%;
+  left: 15%;
+}
+
+.btn {
+  margin-right: 20px;
+}
+*/
+
+.add_movie_text {
+  font-size: 24px;
+  padding: 20px 0;
+} 
+
