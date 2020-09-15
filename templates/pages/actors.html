@@ -1,20 +1,42 @@
-{% extends 'layouts/home.html' %}
-{% block title %}Casting Agency | Actors{% endblock %}
+{% extends 'layouts/home.html' %} 
+{% block title %}Casting Agency | Actors {%endblock %} 
 {% block content %}
 <section class="section">
-	<div class="title has-text-centered">Actors | Actress</div>
-	<div class="container is-fluid">
-		<div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd is-multiline">
-			{% for actor in actors %}
-			<div class="column is-3">
-				<div class="card-image is-3">
-					<img src="https://www.emmys.com/sites/default/files/bios/adam-sandler-2019-450x600.jpg">
-					<button type="submit" data-id="{{ actor.id }}" class="button-delete" title="Remove movie"><i class="fa fa-trash-alt"></i></button>
-					<h3><a href="/actors/{{ actor.id }}">{{ actor.name }}</a></h3>
-				</div>
-			</div>
-			{% endfor %}
+  <div class="title has-text-centered">Actors | Actress</div>
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+      {% for actor in actors %}
+      <div class="column is-3">
+        <div class="card-image is-3">
+          <figure class="image is-3by4">
+            <img src="{{ actor.image_link }}" alt="{{ actor.name }}_image" />
+		  </figure>
+		  <!-- <button class='btn btn-primary btn-lg btn-sm' id="edit-actor" onclick="location.href='/actors/{{ actor.id }}'">Edit</button> -->
+          <!-- <button class="button"
+            data-id="{{ actor.id }}"
+			id="delete-actor"
+		  >Delete
+		  </button> -->
+		  <footer class="card-footer">
+			<a href="#" class="card-footer-item" id="edit-actor" onclick="location.href='/actors/{{ actor.id }}'">Edit</a>
+			<a href="#" class="card-footer-item" data-id="{{ actor.id }}" id="delete-actor">Delete</a>
+		  </footer>
 		</div>
-	</div>
+		<!-- <button class="edit-icon button" id="edit-actor" onclick="location.href='/actors/{{ actor.id }}'">
+			<span class="iconify" data-icon="el:pencil-alt" data-inline="false"></span>
+		</button>
+		<button class="button trash-icon" data-id="{{ actor.id }}" id="delete-actor">
+		<span class="iconify" data-icon="el:trash-alt" data-inline="false"></span>
+		</button> -->
+	  <h3
+		class="title is-5 has-text-centered pt-4"
+		data-id="{{ actor.id }}"
+	  >
+	  <a href="/add_actors/{{actor.id}}"> {{ actor.name }}</a>
+	  </h3>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </section>
 {% endblock %}

@@ -12,15 +12,16 @@
                     <figure class="image is-4by5">
                         <img src="{{ movie.image_link }}" alt="{{movie.title}}_movie-poster" width="600" height="400">
                       </figure> 
-					<!-- <button type="submit" data-id="{{ movie.id }}" class="button-delete" title="Remove movie"><i class="fa fa-trash-alt"></i></button> -->
-					<!-- <h3 class="has-text-centered"><a href="/movies/{{ movie.id }}">{{ movie.title }}</a></h3> -->
-                    <!-- <p>Description: {{movie.description}} <br>Release Date: {{movie.release_date}} <br> Casting Date: 18/08/202</p> -->
+                      <footer class="card-footer">
+                        <a class="card-footer-item" id="edit-movie" onclick="location.href='/movies/{{ movie.id }}'">Edit</a>
+                        <a class="card-footer-item" data-id="{{ movie.id }}" id="delete-movie">Delete</a>
+                      </footer>
                 </div>
                 </div>
                 <div class="media-content">
-                    <p class="title is-5 has-text-centered pt-4">{{ movie.title}}</p>
+                    <p class="title is-5 has-text-centered pt-4">{{ movie.title }}</p>
                   </div> 
-			</div>
+            </div>
 			{% endfor %}
 		</div>
 	</div>

@@ -1,11 +1,11 @@
 from datetime import datetime
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, DateField
 from wtforms.validators import DataRequired, AnyOf, URL
 
-class MovieForm(Form):
+class MovieForm(FlaskForm):
     title = StringField(
-        'title', validators=[DataRequired()]
+        'title', validators=[DataRequired(message='Please enter a title.')]
     )
     description = StringField(
         'description', validators=[DataRequired()]
@@ -17,7 +17,7 @@ class MovieForm(Form):
         'release_date', validators=[DataRequired()]
     )
 
-class ActorForm(Form):
+class ActorForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )

@@ -17,41 +17,62 @@
         <div class="column img-bg"></div>
         <div class="column">
           <div class="field">
-            <form>
+            <form method="POST">
               <h3 class="has-text-weight-bold">Add Actor | Actress</h3>
               <div class="field">
-                <label class="label" for="actor_name">Name</label>
                 <div class="control">
-                  <input
-                    class="input"
-                    id="actor_name"
-                    type="text"
-                    placeholder="Actor | Actress name"
-                  />
+                  <div class="form-field">
+                    <label for='name' class="label">Name</label>
+                    {{ form.name(class_ = 'form-control', placeholder='Name', autofocus = true) }}
+                  </div>
                 </div>
               </div>
 
               <div class="field">
+                <div class="control">
+                  <div class="form-field">
+                    <label for='age' class="label">Age</label>
+                    {{ form.age(class_ = 'form-control', placeholder='How old?', autofocus = true) }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="control">
+                  <div class="form-field">
+                    <label for='gender' class="label">gender</label>
+                    {{ form.gender(class_ = 'form-control', placeholder='', autofocus = true) }}
+                  </div>
+                </div>
+              </div>  
+              <div class="field">
+                <div class="control">
+                  <div class="form-field">
+                    <label for='image' class="label">Image Link</label>
+                    {{ form.image_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+                  </div>
+                </div>
+              </div>
+              <input type='submit' value='Create Models'>
+
+              <!-- <div class="field">
                 <label for="age" class="label">Age</label>
                 <div class="control">
                   <input
                     id="age"
                     class="input"
-                    type="date"
+                    type="number"
                   />
-                  <!-- <span class="icon is-small is-left">
-                    <i class="fas fa-calendar"></i>
-                  </span> -->
                 </div>
               </div>
 
               <div class="control">
                 <label class="radio">
-                  <input type="radio" name="answer">
+                  <input type="radio" name="answer" id="gender">
                   Male
                 </label>
                 <label class="radio">
-                  <input type="radio" name="answer">
+                  <input type="radio" name="answer" id="gender">
                   Female
                 </label>
               </div>
@@ -74,10 +95,9 @@
                   </button>
                 </div>
                 <div class="control">
-                  <button class="button is-link is-light">Cancel</button>
+                  <button class="button is-link is-light">Cancel</button> -->
                 </div>
               </div>
-              <p id="demo"></p>
             </form>
           </div>
         </div>

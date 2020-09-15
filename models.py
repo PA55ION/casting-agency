@@ -25,6 +25,8 @@ def setup_db(app, database_path=database_path):
     migrate = Migrate(app, db)
     db.create_all()
 
+def rollback():
+    db.session.rollback()
 # def db_drop_and_create_all():
 #     db.drop_all()
 #     db.create_all()
@@ -87,7 +89,8 @@ class Actors(db.Model):
             'id': self.id,
             'name': self.name,
             'age': self.age,
-            'gender': self.gender
+            'gender': self.gender,
+            'image_link': self.image_link
         }
 
     def __repr__(self):

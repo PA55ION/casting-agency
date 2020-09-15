@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="https://use.typekit.net/eeq8vwp.css">
+    <title>{% block title %}Casting Agency{% endblock %}</title>
+  </head>
+  <body>
+    <nav class="navbar container is-fluid" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        </a>
+    
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href='/'>
+            Home
+          </a>
+              <a id="movies gated-content" class="navbar-item" href="{{ url_for('get_movies')}}">
+                Movies
+              </a>
+              <a href="{{ url_for('get_actors')}}" id="actors" class="navbar-item">
+                Actors
+              </a>
+              <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link is-arrowless">
+                  Add Movies / Actors
+                </a>
+                <div class="navbar-dropdown">
+                  <a class="navbar-item" href='/add_movie'>
+                    Movies
+                  </a>
+                  <a class="navbar-item" href='/add_actor'>
+                   Actors
+                  </a>
+              </div>
+              </div>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary" id="logout">
+                <strong>Log out</strong>
+              </a>
+              <a  
+              id="login"
+              class="button is-primary"
+              >
+                Log in
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Begin page content -->
+    <main id="content" role="main" class='alert'>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class='notification is-danger'>
+              <a class="delete" data-dismiss="alert" onclick='closeAlertBox()'></a>
+              {{ message }} 
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+  
+      {% block content %}{% endblock %}
+    </main>
+
+  {% block footer %}
+  <footer class="footer is-primary">
+    <div class="has-text-centered">
+      <p>&copy</p>
+    </div>
+  </footer>
+  {% endblock %}
+  
+    </section>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/1.9/auth0-spa-js.production.js"></script> 
+    <script src="https://cdn.auth0.com/js/lock/11.26.3/lock.min.js"></script>
+    <script src="/static/js/auth_variable.js"></script>
+    <!-- <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script> -->
+    <script type="text/javascript" src="/static/js/app.js" defer></script>
+    <script type="text/javascript" src="/static/js/auth0.js" defer></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+
+  </body>
+</html>

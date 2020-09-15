@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="https://use.typekit.net/eeq8vwp.css">
+    <title>{% block title %}Casting Agency{% endblock %}</title>
+  </head>
+  <body>
+  <!-- </div>  -->
+    <!-- Begin page content -->
+    <main id="content" role="main" class='alert'>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class='notification is-danger'>
+              <a class="delete" data-dismiss="alert" onclick='closeAlertBox()'></a>
+              {{ message }} 
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+  
+      {% block content %}{% endblock %}
+    </main>
+
+  {% block footer %}
+  <footer class="footer is-primary">
+    <div class="has-text-centered">
+      <p>&copy</p>
+    </div>
+  </footer>
+  {% endblock %}
+  
+    </section>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/1.9/auth0-spa-js.production.js"></script> 
+    <script src="https://cdn.auth0.com/js/lock/11.26.3/lock.min.js"></script>
+    <script src="/static/js/auth_variable.js"></script>
+    <!-- <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script> -->
+    <script type="text/javascript" src="/static/js/app.js" defer></script>
+    <script type="text/javascript" src="/static/js/auth0.js" defer></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  </body>
+</html>
