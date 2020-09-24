@@ -40,6 +40,8 @@ class Movies(db.Model):
     release_date = Column(DateTime, nullable=False)
     image_link = Column(String)
     description = Column(String)
+    genres = Column(String)
+
 
     def insert(self):
         db.session.add(self)
@@ -59,6 +61,7 @@ class Movies(db.Model):
             'release_date': self.release_date,
             'description': self.description,
             'image_link': self.image_link,
+            'genres': self.genres
         }
     
     def __repr__(self):
@@ -72,6 +75,8 @@ class Actors(db.Model):
     age = Column(Integer, nullable=False)
     gender = Column(String, nullable=False)
     image_link = Column(String)
+    description = Column(String)
+
 
     def insert(self):
         db.session.add(self)
@@ -90,7 +95,8 @@ class Actors(db.Model):
             'name': self.name,
             'age': self.age,
             'gender': self.gender,
-            'image_link': self.image_link
+            'image_link': self.image_link,
+            'description': self.description
         }
 
     def __repr__(self):
