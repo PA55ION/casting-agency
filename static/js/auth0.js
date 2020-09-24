@@ -1,23 +1,11 @@
-// let auth0 = null;
 
-// const fetchAuthConfig = () => fetch("./auth_variable.js");
-// const configureClient = async () => {
-//   const response = await fetchAuthConfig();
-//   const config = await response.json();
-//   console.log(config)
-
-//   auth0 = await createAuth0Client({
-//     domain: config.domain,
-//     client_id: config.clientId
+//     auth0 = await createAuth0Client({
+//     domain: 'dev-ys0=cxsi.us.auth0.com',
+//     client_id: 'Er4ULFDP3EJpPh3Ds6Pu1kgNGN6yI2mz',
+//     audience: "casting-agency",
+//     redirect_uri: "http://localhost:5000",
+//     cacheLocation: 'localstorage'
 //   });
-
-//   //   auth0 = await createAuth0Client({
-//   //   domain: 'dev-ys0=cxsi.us.auth0.com',
-//   //   client_id: 'Er4ULFDP3EJpPh3Ds6Pu1kgNGN6yI2mz',
-//   //   audience: "casting-agency",
-//   //   redirect_uri: "http://localhost:5000",
-//   //   cacheLocation: 'localstorage'
-//   // });
 // };
 
 
@@ -82,7 +70,7 @@
 //       // These properties are set in auth0-variables.js
 //       AUTH0_CLIENT_ID,
 //       AUTH0_DOMAIN,
- 
+      
 //   );
 
 
@@ -114,3 +102,29 @@
 //   //     // Just call your API here. The header will be sent
 //   // })
 // })();
+let userToken = window.location.href.match(/\#(?:access_token)\=([\S\s]*?)\&/);
+let permissions;
+
+if (userToken) {
+  localStorage.setItem('token', userToken[1]);
+  permissions = JSON.parse(atob(userToken[1].split('.')[1])).permissions;
+  localStorage.setItem('permissions', permissions)
+}
+
+const updateUI = async () => {
+
+
+  document.getElementById("logout").disabled = !userToken;
+  document.getElementById("login").disabled = userToken;
+
+  if(userToken) {
+      document.getElementById('gate-content').classList.remove('hidden')
+  }
+  else {
+    document.getElementById("gated-content").classList.add("hidden");
+  }
+};
+
+
+
+

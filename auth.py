@@ -7,13 +7,16 @@ from six.moves.urllib.request import urlopen
 from flask_cors import cross_origin
 
 
-AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
-ALGORITHMS = os.environ.get('ALGORITHMS')
-AUTH0_API_AUDIENCE = os.environ.get('AUTH0_API_AUDIENCE')
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN', None)
+ALGORITHMS = os.environ.get('ALGORITHMS', None)
+AUTH0_API_AUDIENCE = os.environ.get('AUTH0_API_AUDIENCE', None)
 
 # AUTH0_DOMAIN = 'dev-ys0-cxsi.us.auth0.com'
 # ALGORITHMS = ['RS256']
-# API_AUDIENCE = 'casting-agency'
+# AUTH0_API_AUDIENCE = 'casting-agency'
+
+print(AUTH0_API_AUDIENCE)
+print(AUTH0_DOMAIN)
 
 # os.environ.get('AUTH0_DOMAIN')
 
@@ -96,7 +99,7 @@ def verify_decode_jwt(token):
                 token,
                 rsa_key,
                 algorithms=ALGORITHMS,
-                audience=API_AUDIENCE,
+                audience=AUTH0_API_AUDIENCE,
                 issuer='https://' + AUTH0_DOMAIN + '/'
             )
 

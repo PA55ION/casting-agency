@@ -22,11 +22,6 @@ body {
 .title {
   color: var(--background-color);
 }
-/* 
-a.disabled {
-  pointer-events: none;
-  cursor: not-allowed;
-} */
 
 .hidden {
   display: none;
@@ -55,25 +50,9 @@ a.disabled {
   height: 100vh;
 }
 
-/* .level-right {
-  margin-right: 50px;
-  margin-top: 150px;
-} */
-
 .control {
   width: 400px;
 }
-
-/* .field {
-  position: relative;
-  top: 15%;
-  left: 15%;
-}
-
-.btn {
-  margin-right: 20px;
-}
-*/
 
 .add_movie_text {
   font-size: 24px;
@@ -110,8 +89,8 @@ a.disabled {
   -o-border-radius: 50%;
 }
 
-.ion-icon {
-  font-size: 64px;
+.iconify {
+  font-size: 45px;
 }
 
 .card-footer {

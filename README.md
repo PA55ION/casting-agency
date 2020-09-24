@@ -225,8 +225,3 @@ If request is successful the response returned as JSON object in the following f
   "success": true
 }
 ```
-
-
-
-
-
