@@ -6,7 +6,6 @@ from flask import request
 from flask import render_template
 from flask import redirect
 import json
-from authlib.integrations.flask_client import OAuth
 from six.moves.urllib.parse import urlencode
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -58,7 +57,6 @@ def create_app(test_config=None):
             })
         except Exception as e:
             print(e)
-       
 
     # TODO add auth token for director and executive producer
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
