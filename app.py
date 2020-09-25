@@ -87,13 +87,15 @@ def create_app(test_config=None):
         new_release_date = data.get('release_date', None)
         new_image_link = data.get('image_link', None)
         new_description = data.get('description', None)
+        new_genres = data.get('genres', None)
 
         try:
             movie = Movies(
                 title=new_title,
                 release_date=new_release_date,
                 description=new_description,
-                image_link=new_image_link)
+                image_link=new_image_link,
+                genres=new_genres)
             movie.insert()
 
             selection = Movies.query.order_by('id').all()
@@ -122,6 +124,7 @@ def create_app(test_config=None):
                 update_release_date = data.get('release_date', None)
                 update_image = data.get('image_link', None)
                 update_description = data.get('description', None)
+                update_genres = data.get('genres', None)
                 if update_title:
                     movie.title = update_title
                 if update_release_date:
@@ -130,6 +133,8 @@ def create_app(test_config=None):
                     movie.image_link = update_image
                 if update_description:
                     movie.description = update_description
+                if update_genres:
+                    movie.genres = update_genres
                 movie.update()
                 return jsonify({
                     'success': True,
@@ -165,25 +170,34 @@ def create_app(test_config=None):
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
     def add_actor(token):
-        error = False
-        new_name = request.form['name']
-        new_age = request.form['age']
-        new_gender = request.form['gender']
-        new_image_link = request.form['image_link']
-
         try:
-            actor = Actors(name=new_name, age=new_age,
-                           gender=new_gender, image_link=new_image_link)
+            data = request.get_json()
+            new_name = data.get('name', None)
+            new_age = data.get('age', None)
+            new_gender = data.get('gender', None)
+            new_image_link = data.get('image_link', None)
+            new_description = data.get('description', None)
+            
+            actor = Actors(
+                name=new_name,
+                age=new_age,
+                gender=new_gender,
+                image_link=new_image_link,
+                description=new_description)
             actor.insert()
-            flash('Artist ' + request.form['name'] + ' successfully created 🚀')
+
+            selection = Actors.query.order_by('id').all()
+            return jsonify({
+                'success': True,
+                'message': 'Successfully added',
+                'actors': len(selection)
+            })
 
         except Exception:
-            rollback()
-            error = True
-            abort(400)
-            flash('An error occurred. ' + actor.name + ' could not be listed.')
-
-        return redirect(url_for('get_actors'))
+            return json.dumps({
+                'success': False,
+                'error': 'Not able to add model at this time',
+            }), 422
 
 
 # add auth token for director and executive producer
@@ -221,6 +235,7 @@ def create_app(test_config=None):
                 update_age = data.get('age', None)
                 update_gender = data.get('gender', None)
                 update_image = data.get('image_link', None)
+                update_description = data.get('description', None)
                 if update_name:
                     actor.name = update_name
                 if update_age:
@@ -229,6 +244,8 @@ def create_app(test_config=None):
                     actor.gender = update_gender
                 if update_image:
                     actor.image_link = update_image
+                if update_description:
+                    actor.description = update_description
 
                 actor.update()
 

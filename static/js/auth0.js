@@ -104,6 +104,7 @@
 // })();
 let userToken = window.location.href.match(/\#(?:access_token)\=([\S\s]*?)\&/);
 let permissions;
+let checkToken;
 
 if (userToken) {
   localStorage.setItem('token', userToken[1]);
@@ -111,20 +112,19 @@ if (userToken) {
   localStorage.setItem('permissions', permissions)
 }
 
-const updateUI = async () => {
+// function updateUI () {
 
+//   document.getElementById("logout").disabled = !userToken;
+//   document.getElementById("login").disabled = userToken;
 
-  document.getElementById("logout").disabled = !userToken;
-  document.getElementById("login").disabled = userToken;
-
-  if(userToken) {
-      document.getElementById('gate-content').classList.remove('hidden')
-  }
-  else {
-    document.getElementById("gated-content").classList.add("hidden");
-  }
-};
-
+//   if(permissions) {
+//       document.getElementById('gate-content').classList.remove('hidden')
+//   }
+//   else {
+//     document.getElementById("gated-content").classList.add("hidden");
+//   }
+// };
 
 
 
+// updateUI()
