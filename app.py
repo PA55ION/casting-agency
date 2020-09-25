@@ -58,7 +58,6 @@ def create_app(test_config=None):
         except Exception as e:
             print(e)
 
-    # TODO add auth token for director and executive producer
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
     @requires_auth('delete:movies')
     def delete_movie(token, movie_id):
@@ -77,7 +76,6 @@ def create_app(test_config=None):
                 'error': 'Movie not found'
             }), 404
 
-# TODO add auth token for director and executive producer
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movies')
     def add_movie(token):
@@ -112,7 +110,6 @@ def create_app(test_config=None):
                 'error': 'Not able to add movie at this time',
             }), 422
 
-# TODO add auth token for director and executive producer
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
     def update_movie(token, movie_id):
@@ -166,7 +163,7 @@ def create_app(test_config=None):
             }), 404
 
         # return render_template('pages/actors.html', actors=actors)
-    # TODO add auth token for director and executive producer
+    # add actor
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
     def add_actor(token):
@@ -177,7 +174,7 @@ def create_app(test_config=None):
             new_gender = data.get('gender', None)
             new_image_link = data.get('image_link', None)
             new_description = data.get('description', None)
-            
+
             actor = Actors(
                 name=new_name,
                 age=new_age,
@@ -199,8 +196,7 @@ def create_app(test_config=None):
                 'error': 'Not able to add model at this time',
             }), 422
 
-
-# add auth token for director and executive producer
+# delete actor endpoint
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     @requires_auth('delete:actors')
     def delete_actor(token, actor_id):
@@ -222,7 +218,7 @@ def create_app(test_config=None):
                 'error': 'Actor not found.'
             }), 404
 
-# TODO add auth token for director and executive producer
+# edit actor
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
     def update_actor(token, actor_id):

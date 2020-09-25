@@ -5,6 +5,7 @@
 - [Main Files: Project Structure](#main-files-project-structure)
 - [Development Setup](#development-setup)
 - [Endpoints](#endpoints)
+- [Application Hosted live via Heroku](#application-hosted-live-via-heroku)
 
 ### Introduction
 
@@ -225,3 +226,12 @@ If request is successful the response returned as JSON object in the following f
   "success": true
 }
 ```
+
+### Application Hosted live via Heroku
+- This app connects to a Postgres server hosted on Heroku. 
+
+Navigate to the site [https://udacity-captone-casting-agency.herokuapp.com](https://udacity-captone-casting-agency.herokuapp.com)
+
+Try endpoints `/actors` or `/movies`
+
+
