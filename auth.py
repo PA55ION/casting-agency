@@ -20,15 +20,19 @@ print(AUTH0_DOMAIN)
 
 # os.environ.get('AUTH0_DOMAIN')
 
-## AuthError Exception
+
+# AuthError Exception
 '''
 AuthError Exception
 A standardized way to communicate auth failure modes
 '''
+
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
+
 
 def get_token_auth_header():
     auth = request.headers.get('Authorization', None)
@@ -38,7 +42,7 @@ def get_token_auth_header():
             'code': 'authorization_header_missing',
             'description': 'Authorization header is require.'
         }, 401)
-    
+
     parts = auth.split()
     if parts[0].lower() != 'bearer':
         raise AuthError({
@@ -61,16 +65,18 @@ def get_token_auth_header():
     token = parts[1]
     return token
 
+
 def check_permission(permission, payload):
     if 'permissions' in payload:
         if permission in payload['permissions']:
             return True
-    
+
     raise AuthError({
         'success': False,
         'message': 'Permission not included in JWT.',
         'error': 401
     }, 401)
+
 
 def verify_decode_jwt(token):
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
@@ -82,7 +88,7 @@ def verify_decode_jwt(token):
             'code': 'invalid_header',
             'description': 'Authorization malformed.'
         }, 401)
-    
+
     for key in jwks['keys']:
         if key['kid'] == unverified_header['kid']:
             rsa_key = {
@@ -104,17 +110,18 @@ def verify_decode_jwt(token):
             )
 
             return payload
-        
+
         except jwt.ExpiredSignatureError:
             raise AuthError({
                 'code': 'token_expired',
                 'description': 'Token Expired.'
             }, 401)
-        
+
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
-                'description': 'Incorrect claims. Please, check the audience and issuer.'
+                'description':
+                'Incorrect claims. Please, check the audience and issuer.'
             }, 401)
         except Exception:
             raise AuthError({
@@ -124,7 +131,8 @@ def verify_decode_jwt(token):
     raise AuthError({
         'code': 'invalid_header',
         'description': 'Unable to find the appropriate key.'
-    }, 400)    
+    }, 400)
+
 
 def requires_auth(permission=''):
     def requires_auth_decorator(f):
@@ -136,4 +144,3 @@ def requires_auth(permission=''):
             return f(payload, *args, **kwargs)
         return wrapper
     return requires_auth_decorator
-
