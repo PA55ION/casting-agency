@@ -23,9 +23,9 @@ body {
   color: var(--background-color);
 }
 
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 .bg-img {
   filter: blur(5px);
