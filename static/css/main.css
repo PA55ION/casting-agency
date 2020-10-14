@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ovo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 
 :root {
@@ -13,6 +14,12 @@ body {
   font-family: 'Ovo', serif;
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+ 
 }
 
 .card {
@@ -43,13 +50,6 @@ body {
   background-size: contain;
 }
 
-.actor-img {
-  background-image: url('../assets/background-img.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100vh;
-}
-
 .control {
   width: 400px;
 }
@@ -59,7 +59,7 @@ body {
   padding: 20px 0;
 } 
 
-.form-control {
+/* .form-control {
   height: 38px;
   width: 400px;
   border: 1px solid #b5b5b5;
@@ -68,7 +68,7 @@ body {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-}
+} */
 
 #content {
   display: block;

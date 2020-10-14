@@ -8,20 +8,21 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"
     />
     <link rel="shortcut icon" href="https://use.typekit.net/eeq8vwp.css" />
+    <link rel="stylesheet" href="../../static/css/new_actors.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
   </head>
   <body>
-    <section class="hero actor-img is-fullheight">
+    <section class="hero is-fullheight">
         <!-- <img src="/static/assets/actor-background-img.jpg"> -->
-      <div class="columns form-columns">
-        <div class="column img-bg"></div>
-        <div class="column">
-          <div class="field">
+      <!-- <div class="columns form-columns"> -->
+        <!-- <div class="column img-bg"></div> -->
+        <!-- <div class="column form"> -->
+          <div class="form-container">
             <form method="POST">
-              <h3 class="has-text-weight-bold">Add Actor | Actress</h3>
               <div class="field">
                 <div class="control">
                   <div class="form-field">
+                    <h3 class="title">Add Actor | Actress</h3>
                     <label for='name' class="label">Name</label>
                     {{ form.name(class_ = 'form-control', placeholder='Name', autofocus = true) }}
                   </div>
@@ -40,8 +41,8 @@
               <div class="field">
                 <div class="control">
                   <div class="form-field">
-                    <label for='gender' class="label">gender</label>
-                    {{ form.gender(class_ = 'form-control', placeholder='', autofocus = true) }}
+                    <label for='gender' class="label">Gender</label>
+                    {{ form.gender(class_ = 'form-control', placeholder='Male or female', autofocus = true) }}
                   </div>
                 </div>
               </div>  
@@ -59,16 +60,21 @@
                 <div class="control">
                   <div class="form-field">
                     <label for='description' class="label">Description</label>
-                    {{ form.age(class_ = 'form-control', placeholder='Actor Detail...', autofocus = true) }}
+                    {{ form.description(class_ = 'form-control', placeholder='Actor Detail...', autofocus = true) }}
                   </div>
                 </div>
               </div> -->
 
-
-              <input type='submit' value='Create Models'>
+              <div class="field">
+                <div class="control">
+                  <div class="form-field">
+              <input type='submit' value='Create Models' class='submit-btn'>
+                </div>
+              </div>
+            </div>
             </form>
-          </div>
-        </div>
+          <!-- </div> -->
+        <!-- </div> -->
       </div>
     </section>
     <script src="/static/js/app.js"></script>

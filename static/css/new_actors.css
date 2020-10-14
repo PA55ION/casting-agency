@@ -1,0 +1,117 @@
+:root {
+  --primary-font: "Rubik", sans-serif;
+  --primary-color: #252537;
+}
+
+.hero {
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  background-image: linear-gradient(-225deg, #e3fdf5 0%, #ffe6fa 100%) fixed;
+  background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%) fixed; 
+  background-attachment: fixed;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.form-field {
+    margin: .5rem;
+    padding: .5rem;
+}
+
+.form-control {
+  height: 50px;
+  /* margin: 0 auto; */
+  padding: 14px 16px;
+  max-width: 75%;
+  width: 100%;
+  border: 1px solid #b5b5b5;
+  border-radius: 5px;
+  font-size: 18px;
+  display: block;
+  resize: vertical;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  font-family: var(--primary-font);
+  outline: none;
+  border: none;
+}
+
+.form-container {
+  border: 1px solid white;
+  background-image: linear-gradient(-225deg, #e3fdf5 50%, #ffe6fa 50%);
+  box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
+  padding-bottom: 5%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 550px;
+  min-height: 500px;
+  height: auto;
+  border-radius: 7px;
+}
+
+.label,
+.title {
+  font-family: var(--primary-font);
+  color: var(--primary-color);
+}
+
+.title {
+  margin-top: 100px;
+}
+
+.submit-btn {
+  height: 50px;
+  /* width: 130px; */
+  /* margin: 1rem 2rem; */
+  border: 1px solid #b5b5b5;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  font-family: var(--primary-font);
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  color: #252537;
+  background: #b8f2e6;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  max-width: 75%;
+  width: 100%;
+  /* margin: 3rem auto; */
+}
+
+.submit-btn:hover {
+  box-shadow: 2px 8px 45px rgba(0, 0, 0, 0.15);
+  transform: translate3D(0, -2px, 0);
+}
+
+@media (min-width: 768px) {
+  /* .img-bg {
+    display: none;
+  } */
+  /* .right {
+    width: 100%;
+    margin-top: 50px;
+  } */
+  .actor-img {
+    /* background-image: url("../assets/background-img.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh; */
+  }
+}

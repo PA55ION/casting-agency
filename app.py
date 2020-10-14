@@ -69,12 +69,15 @@ def create_app(test_config=None):
             movie = Movies.query.get(movie_id)
             name = movie.title
             movie.delete()
+            flash(name + ' successfully deleted!')
             return jsonify({
                 'success': True,
                 'deleted': movie.id,
                 'message': 'Movie ' + name + ' successfully deleted'
             }), 200
         except Exception:
+            flash(name +
+                  'can not be delete at this time. Please try again later')
             return json.dumps({
                 'success': False,
                 'error': 'Movie not found'
@@ -194,10 +197,12 @@ def create_app(test_config=None):
         new_age = request.form['age']
         new_gender = request.form['gender']
         new_image_link = request.form['image_link']
+        new_description = request.form['description']
 
         try:
             actor = Actors(name=new_name, age=new_age,
-                           gender=new_gender, image_link=new_image_link)
+                           gender=new_gender, image_link=new_image_link,
+                           description=new_description)
                            
             actor.insert()
             flash('Artist ' + request.form['name'] + ' successfully created 🚀')
